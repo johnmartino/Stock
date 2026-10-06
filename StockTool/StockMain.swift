@@ -21,11 +21,10 @@ struct Stock: AsyncParsableCommand {
             let result = try await service.lookup(symbol)
             
             let change = result.regularMarketPrice - result.chartPreviousClose
-            // Unicode equivalents of the SF Symbols for terminal output.
             let indicator = change > 0 ? "\u{001B}[32m▲\u{001B}[0m" : change < 0 ? "\u{001B}[31m▼\u{001B}[0m" : "—"
             let currencyStyle = FloatingPointFormatStyle<Double>.Currency(code: result.currency)
                 .precision(.fractionLength(2))
-            print("\(symbol) \(indicator) \(result.regularMarketPrice.formatted(currencyStyle)) (\(change.formatted(currencyStyle)))")
+            print("\(symbol.uppercased().trimmingCharacters(in: .whitespacesAndNewlines)) \(indicator) \(result.regularMarketPrice.formatted(currencyStyle)) (\(change.formatted(currencyStyle)))")
         }
     }
 }
